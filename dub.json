@@ -12,9 +12,17 @@
         "cmake -S \"$PACKAGE_DIR\" -B \"$PACKAGE_DIR/build\" -DCMAKE_BUILD_TYPE=Release",
         "cmake --build \"$PACKAGE_DIR/build\" -j --target xatlas_c"
     ],
-
     "lflags-posix": ["-L$PACKAGE_DIR/build"],
-    "libs-posix": ["xatlas_c", "stdc++", "m"],
+    "libs-linux": ["xatlas_c", "stdc++", "m"],
+    "libs-osx": ["xatlas_c", "c++", "m"],
+
+    "preBuildCommands-windows": [
+        "git -C \"$PACKAGE_DIR\" submodule update --init --recursive",
+        "cmake -S \"$PACKAGE_DIR\" -B \"$PACKAGE_DIR/build\"",
+        "cmake --build \"$PACKAGE_DIR/build\" --config Release --target xatlas_c"
+    ],
+    "lflags-windows": ["$PACKAGE_DIR/build/Release/xatlas_c.lib"],
+    "dflags-windows": ["-mscrtlib=msvcrt"],
 
     "configurations": [
         {

@@ -18,4 +18,9 @@ target_include_directories(xatlas_c
 )
 
 # xatlas is header-only C++11/14, no extra deps needed.
-target_compile_options(xatlas_c PRIVATE -Wall -Wno-unused-function)
+if(NOT MSVC)
+    target_compile_options(xatlas_c PRIVATE -Wall -Wno-unused-function)
+else()
+    # Suppress MSVC secure-function warnings generated inside xatlas.cpp.
+    target_compile_definitions(xatlas_c PRIVATE _CRT_SECURE_NO_WARNINGS)
+endif()
